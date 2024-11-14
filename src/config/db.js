@@ -1,20 +1,17 @@
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-// const { env } = require("process");
-// const envFile = process.env.NODE_ENV === "production" ? ".env" : ".env";
-// require("dotenv").config({ path: path.resolve(process.cwd(), envFile) });
 require("dotenv").config();
 
-const { DB_URL } = process.env;
+const { DB_DEPLOY } = process.env;
 
-if (!DB_URL) {
+if (!DB_DEPLOY) {
 	throw new Error(
 		"Por favor define la variable de entorno DB_URL dentro del archivo .env"
 	);
 }
 
-const sequelizeOptions = new Sequelize(DB_URL, {
+const sequelizeOptions = new Sequelize(DB_DEPLOY, {
 	logging: false,
 	native: false
 });
@@ -28,7 +25,7 @@ if (process.env.NODE_ENV === "production" && process.env.USE_SSL === "true") {
 	};
 }
 
-const sequelize = new Sequelize(DB_URL, sequelizeOptions);
+const sequelize = new Sequelize(DB_DEPLOY, sequelizeOptions);
 
 const basename = path.basename(__filename);
 
